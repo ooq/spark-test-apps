@@ -16,6 +16,7 @@
  */
 
 // scalastyle:off println
+package com.qifan
 
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 import org.apache.spark.SparkContext._
