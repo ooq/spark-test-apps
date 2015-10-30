@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.qifan
+package com.qifan
 
 import scala.collection.mutable.SynchronizedQueue
 
@@ -27,10 +27,12 @@ object BalancedStreaming {
 
   def main(args: Array[String]) {
 
-    StreamingExamples.setStreamingLogLevels()
     val sparkConf = new SparkConf().setAppName("BalancedStreaming")
     // Create the context
     val ssc = new StreamingContext(sparkConf, Seconds(30))
+
+    val listener = new TaskBalanceListener(sparkConf)
+    ssc.sparkContext.addSparkListener(listener)
 
     // Create the queue through which RDDs can be pushed to
     // a QueueInputDStream
@@ -46,7 +48,11 @@ object BalancedStreaming {
     // Create and push some RDDs into
     for (i <- 1 to 30) {
       rddQueue += ssc.sparkContext.makeRDD(1 to 1000, 10)
-      Thread.sleep(1000)
+      Thread.sleep(30)
+      val stats = listener.getSizesOfHardSizeLimitedCollections
+      stats.keys.foreach{ i =>
+        print( "Key = " + i )
+        println(" Value = " + stats(i) )}
     }
     ssc.stop()
   }
