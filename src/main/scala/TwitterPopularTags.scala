@@ -31,7 +31,7 @@ import org.apache.spark.SparkConf
  * Run this on your local machine as
  *
  */
-object SimpleApp {
+object TwitterPopularTags {
   def main(args: Array[String]) {
     if (args.length < 4) {
       System.err.println("Usage: TwitterPopularTags <consumer key> <consumer secret> " +
