@@ -48,7 +48,7 @@ object BalancedStreaming {
     // Create and push some RDDs into
     for (i <- 1 to 30) {
       rddQueue += ssc.sparkContext.makeRDD(1 to 1000, 10)
-      Thread.sleep(30)
+      Thread.sleep(30000)
       val stats = listener.getSizesOfHardSizeLimitedCollections
       stats.keys.foreach{ i =>
         print( "Key = " + i )
